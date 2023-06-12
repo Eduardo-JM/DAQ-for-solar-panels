@@ -5,40 +5,35 @@ from matplotlib.backends.backend_tkagg import (
 	NavigationToolbar2Tk
 )
 from matplotlib.figure import Figure
+import FileManagement
+
 
 matplotlib.use('TkAgg')
 
-data = {
-	'Python': 11.27,
-	'C': 11.16,
-	'Java': 10.46,
-	'C++': 7.5,
-	'C#': 5.26
-}
-languages = data.keys()
-popularity = data.values()
+# data = {
+# 	'Python': 11.27,
+# 	'C': 11.16,
+# 	'Java': 10.46,
+# 	'C++': 7.5,
+# 	'C#': 5.26
+# }
+# languages = data.keys()
+# popularity = data.values()
 
 
 class App(tk.Frame):
 	def create_widgets(self):
-		figure = Figure(figsize=(6, 4), dpi=300)
-		figure_canvas = FigureCanvasTkAgg(figure, self)
-		NavigationToolbar2Tk(figure_canvas, self)
-		# create axes
-		axes = figure.add_subplot()
-		# create the barchart
-		axes.bar(languages, popularity)
-		axes.set_title('Top 5 Programming Languages')
-		axes.set_ylabel('Popularity')
-
-		figure_canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-
-		self.QUIT = tk.Button(self)
-		self.QUIT["text"] = "QUIT"
-		self.QUIT["fg"] = "red"
-		self.QUIT["command"] = self.quit
-
-		self.QUIT.pack()
+		parameters = ["voltage", "current", "temperature", "frequency"]
+		for parameter in parameters:
+			figure = Figure(figsize=(3, 2), dpi=150)
+			figure_canvas = FigureCanvasTkAgg(figure, self)
+			toolbar = NavigationToolbar2Tk(figure_canvas, self, pack_toolbar=False)
+			data = FileManagement.get_data()
+			# create axes
+			voltage_axes = figure.add_subplot()
+			voltage_axes.plot(data[parameter])
+			voltage_axes.set_title(parameter)
+			figure_canvas.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
 
 	def __init__(self, master=None):
 		tk.Frame.__init__(self, master)

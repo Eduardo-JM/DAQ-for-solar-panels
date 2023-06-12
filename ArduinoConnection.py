@@ -1,6 +1,8 @@
 import serial.tools.list_ports as list_ports
 from pyfirmata import INPUT, ArduinoMega, util
 from time import sleep
+
+from FileManagement import append_new_data
 from State import get_continue_reading
 import pandas as pd
 
@@ -43,6 +45,7 @@ class ArduinoConnection:
 			new_data[parameter] = self.arduino_inputs[parameter].read()
 
 		if new_data.get("voltage") is not None:
+			append_new_data(new_data)
 			print(new_data)
 
 	def __init__(self):
